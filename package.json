@@ -1,0 +1,22 @@
+{
+  "name": "testing.framework",
+  "version": "0.0.1",
+  "author": "Alex Cap",
+  "private": true,
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "run-sequence": "~1.1.0",
+    "yargs": "^3.25.0",
+    "gulp-protractor": "^3.0.0",
+    "protractor": "^4.0.10",
+    "jasmine": "^2.5.2",
+    "jasmine-reporters": "^2.2.0",
+    "lodash": "^4.16.6",
+    "request": "^2.78.0",
+    "request-promise": "^4.1.1"
+  },
+  "scripts": {
+    "install": "gulp update-web-driver",
+    "test": "gulp test"
+  }
+}
