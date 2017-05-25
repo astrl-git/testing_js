@@ -11,7 +11,21 @@ var protractorConfigFile = 'protractor.config.js';
 var BROWSERS_COUNT = 3;
 
 global.makeRequest = require(__dirname + '/utils/make-request.util.js');
-	
+    
+/**
+ * Get help
+ */
+gulp.task('help', function(){
+    var green_col = '\n\x1b[32m';
+    var yellow_col = '\n\x1b[33m';
+    var norm_col = '\x1b[0m';
+    console.info(green_col + 'gulp ui-test ' + norm_col + '\t\t- run ui testing'+
+        yellow_col + '   --run-single ' + norm_col + '\t- run in one thread'+
+        yellow_col + '   --spec-pattern ' + norm_col + '\t- run tests from given specs\n'+
+        green_col + 'gulp api-test ' + norm_col + '\t\t- run api testing'+
+        yellow_col + '   --spec-pattern ' + norm_col + '\t- run tests from given specs\n');
+});
+
 /**
  * Update web driver
  * Task for development environment only

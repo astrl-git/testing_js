@@ -19,7 +19,7 @@ module.exports = function () {
      */
     this.waitForCondition = function (description, condition, timeOut) {
         timeOut = timeOut || 3000;
-        return browser.wait(new protractor.until.Condition(description, condition), timeOut);
+        return browser.wait(condition, timeOut, description);
     };
 
     /**

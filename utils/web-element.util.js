@@ -559,11 +559,11 @@ module.exports = function () {
          */
         function waitForListElements() {
             var error_text = 'elements array not empty';
-			return browser.wait(new protractor.until.Condition(error_text, function () {
-				return element_array_finder.count().then(function (count) {
-					return count > 0
-				});
-			}), WAIT_FOR_ELEMENTS_ARRAY_TIMEOUT).then(function () {}, function (error) {});
+			return browser.wait(function () {
+                return element_array_finder.count().then(function (count) {
+                    return count > 0
+                })}, WAIT_FOR_ELEMENTS_ARRAY_TIMEOUT, error_text)
+            .then(function () {}, function (error) {});
         }
     }
 };
