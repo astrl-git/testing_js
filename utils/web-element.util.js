@@ -8,8 +8,8 @@ module.exports = function () {
      * @param {webdriver.Locator} locator
      * @returns {Control}
      */
-    this.get = function (locator) {
-        return new Control(element(locator));
+    this.get = function (locator, element_name) {
+        return new Control(element(locator), element_name);
     };
 
     /**
@@ -17,8 +17,8 @@ module.exports = function () {
      * @param {webdriver.Locator} locator
      * @returns {ControlsArray}
      */
-    this.all = function (locator) {
-        return new ControlsArray(element.all(locator));
+    this.all = function (locator, elements_name) {
+        return new ControlsArray(element.all(locator), elements_name);
     };
 
     /**
@@ -26,13 +26,14 @@ module.exports = function () {
      * @param {ElementFinder} element_finder
      * @constructor
      */
-    function Control(element_finder) {
+    function Control(element_finder, element_name) {
 
         /**
          * Clicks on this element.
          * @returns {!webdriver.promise.Promise.<void>}
          */
         this.click = function () {
+            console.log('Click on '+ element_name);
             return waitForVisibility()
                 .then(function () {
                     return browser.wait(conditions.elementToBeClickable(element_finder), WAIT_TIMEOUT);
@@ -45,7 +46,7 @@ module.exports = function () {
                         })
                 }
                 , function (e) {
-                    throw 'Wait timed out after ' + WAIT_TIMEOUT + ' of waiting for element to be clickable:\n' + element_finder.locator().toString();
+                    throw 'Wait timed out after ' + WAIT_TIMEOUT + ' of waiting for element to be clickable: '+ element_name +'\n' + element_finder.locator().toString();
                 });
         };
 
@@ -54,6 +55,7 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<string>}
          */
         this.getText = function () {
+            console.log('Get text value of '+ element_name);
             return waitForVisibility()
                 .then(function () {
                     return element_finder.getText();
@@ -66,6 +68,7 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<void>}
          */
         this.sendKeys = function (text) {
+            console.log('Type text: "' + text + '" to '+ element_name);
             return waitForVisibility().then(function () {
                 return element_finder.sendKeys(protractor.Key.END, text);
             });
@@ -77,6 +80,8 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<void>}
          */
         this.sendKeysToHiddenElement = function (text) {
+            //used for setting path for file uploading
+            console.log('Upload file: ' + text);
             return waitForPresence()
                 .then(function () {
                     return element_finder.sendKeys(text);
@@ -88,6 +93,7 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<void>}
          */
         this.clear = function () {
+            console.log('Clear input fileld'+ element_name);
             return waitForPresence()
                 .then(function () {
                     return element_finder.clear();
@@ -100,6 +106,7 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<string>}
          */
         this.getAttribute = function (attribute) {
+            console.log('Get attribute: "' + attribute + '" value of ' + element_name);
             return waitForPresence()
                 .then(function () {
                     return element_finder.getAttribute(attribute)
@@ -113,6 +120,7 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<boolean>}
          */
         this.isAttributeContainingValue = function (attribute, value) {
+            console.log('Is attribute: "' + attribute + '" contains value "' + value + '" in ' + element_name);
             return waitForPresence()
                 .then(function () {
                     return element_finder.getAttribute(attribute)
@@ -127,6 +135,7 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<boolean>}
          */
         this.isEnabled = function () {
+            console.log('Is enabled ' + element_name);
             return element_finder.isEnabled();
         };
 
@@ -136,6 +145,7 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<boolean>}
          */
         this.isVisibility = function (isVisible) {
+            console.log('Is visibility = "'+ isVisible +'" of' + element_name);
             return waitForVisibilityValue(isVisible);
         };
 
@@ -145,6 +155,7 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<boolean>}
          */
         this.isPresence = function (isPresent) {
+            console.log('Is presence "'+ isPresent +'" of' + element_name);
             return waitForPresenceValue(isPresent);
         };
 
@@ -153,6 +164,7 @@ module.exports = function () {
          * @returns {ElementFinder}
          */
         this.isPresent = function () {
+            console.log('Is present in DOM ' + element_name);
             return element_finder.isPresent();
         };
 
@@ -161,6 +173,7 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<boolean>}
          */
         this.isSelected = function () {
+            console.log('Is selected ' + element_name);
             return waitForPresence()
                 .then(function () {
                     return element_finder.isSelected();
@@ -172,6 +185,7 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<{width: number, height: number}>}
          */
         this.getSize = function () {
+            console.log('Get size of ' + element_name);
             return waitForPresence()
                 .then(function () {
                     return element_finder.getSize();
@@ -184,6 +198,7 @@ module.exports = function () {
          * @returns {!webdriver.promise.Promise.<{x: number, y: number}>}
          */
         this.getLocation = function () {
+            console.log('Get position coordinates of ' + element_name);
             return waitForPresence()
                 .then(function () {
                     return element_finder.getLocation();
@@ -283,7 +298,7 @@ module.exports = function () {
                     return visibility
                 },
                 function () {
-                    throw 'Wait timed out after ' + WAIT_TIMEOUT + ' of waiting for element visibility:\n' + element_finder.locator().toString();
+                    throw 'Wait timed out after ' + WAIT_TIMEOUT + ' of waiting for element visibility: '+ element_name +'\n' + element_finder.locator().toString();
                 });
         }
 
@@ -300,7 +315,7 @@ module.exports = function () {
                     return invisibility
                 },
                 function () {
-                    throw 'Wait timed out after ' + WAIT_TIMEOUT + ' of waiting for element invisibility:\n' + element_finder.locator().toString();
+                    throw 'Wait timed out after ' + WAIT_TIMEOUT + ' of waiting for element invisibility: '+ element_name +'\n' + element_finder.locator().toString();
                 });
         }
 
@@ -317,7 +332,7 @@ module.exports = function () {
                     return presence
                 },
                 function () {
-                    throw 'Wait timed out after ' + WAIT_TIMEOUT + ' of waiting for element presence:\n' + element_finder.locator().toString();
+                    throw 'Wait timed out after ' + WAIT_TIMEOUT + ' of waiting for element presence: '+ element_name +'\n' + element_finder.locator().toString();
                 });
         }
 
@@ -334,7 +349,7 @@ module.exports = function () {
                     return staleness
                 },
                 function () {
-                    throw 'Wait timed out after ' + WAIT_TIMEOUT + ' of waiting for element staleness:\n' + element_finder.locator().toString();
+                    throw 'Wait timed out after ' + WAIT_TIMEOUT + ' of waiting for element staleness: '+ element_name +'\n' + element_finder.locator().toString();
                 });
         }
     }
@@ -344,7 +359,8 @@ module.exports = function () {
      * @param {ElementArrayFinder} element_array_finder
      * @constructor
      */
-    function ControlsArray(element_array_finder) {
+    function ControlsArray(element_array_finder, elements_name) {
+        // actions logging has the same logic as in Control object
 
         /**
          * Returns an array of visibile text values for all elements in element array finder.
@@ -532,7 +548,7 @@ module.exports = function () {
          */
         this.getFirst = function () {
             waitForListElements();
-            return new Control(element_array_finder.first())
+            return new Control(element_array_finder.first(), elements_name+'[1]')
         };
 
         /**

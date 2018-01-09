@@ -1,15 +1,16 @@
 describe('google page', function () {
 	var googlePage = test_imports.pageObject.googlePage();
 	var browserUtil = test_imports.testUtils.browserUtil();
+	var keyboardUtil = test_imports.testUtils.keyboardUtil();
 	
 	beforeEach(function () {
-        browser.get('https://www.google.com');
+        browserUtil.get('https://www.google.com');
     });
 	
 	it('should search', function() {
-		text = 'selenium'
-		googlePage.typeToSearchInputFiald(text);
-		googlePage.clickOnSearchButton();
+		text = 'Selenium'
+		googlePage.typeToSearchInputField(text);
+		keyboardUtil.pressButtons(keyboardUtil.Button.ENTER);
 		
 		browserUtil.waitForCondition('page to be reloaded', function(){
 			return browser.getTitle().then(function(title){
@@ -17,6 +18,6 @@ describe('google page', function () {
 			})
 		});
 		
-		expect(googlePage.getResultList()).toEqual(['Should', 'be', 'fail']);
+		expect(googlePage.getFirstResultItemTextValue()).toContain(text);
 	})
 })

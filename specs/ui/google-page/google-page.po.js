@@ -6,10 +6,8 @@ function GooglePageControls () {
 	 * @param {string} text
 	 * @retrns {!webdriver.promise.Promise}
 	 */
-	this.typeToSearchInputFiald = function (text){
-		return controls.searchInputField.click().then(function(){
-			return controls.searchInputField.sendKeys(text);
-		});
+	this.typeToSearchInputField = function (text){
+		return controls.searchInputField.sendKeys(text);
 	};
 	
 	/**
@@ -26,6 +24,14 @@ function GooglePageControls () {
 	 */
 	this.getResultList = function(){
 		return controls.resultList.getVisibleTextList();
+	};
+	
+	/**
+	 * Return a list of search result text values
+	 * @retrns {!webdriver.promise.Promise<Array>}
+	 */
+	this.getFirstResultItemTextValue = function(){
+		return controls.resultList.getFirst().getText();
 	};
 }
 

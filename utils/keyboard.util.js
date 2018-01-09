@@ -1,7 +1,8 @@
 module.exports = function () {
 
     this.pressButtons = function (keyboardButton) {
-        return browser.actions().sendKeys(keyboardButton).perform();
+        console.log("Press button " + keyboardButton.name)
+        return browser.actions().sendKeys(keyboardButton.key).perform();
     };
 
     /**
@@ -10,7 +11,7 @@ module.exports = function () {
      * @returns {!webdriver.promise.Promise}
      */
     this.keyDown = function (keyboardButton) {
-        return browser.actions().keyDown(keyboardButton).perform();
+        return browser.actions().keyDown(keyboardButton.key).perform();
     };
 
     /**
@@ -19,14 +20,14 @@ module.exports = function () {
      * @returns {!webdriver.promise.Promise}
      */
     this.keyUp = function (keyboardButton) {
-        return browser.actions().keyUp(keyboardButton).perform();
+        return browser.actions().keyUp(keyboardButton.key).perform();
     };
 
 	this.Button = {
-		CONTROL: protractor.Key.META || protractor.Key.CONTROL,
-		ENTER: protractor.Key.ENTER,
-		ARROW_RIGHT: protractor.Key.ARROW_RIGHT,
-		ARROW_DOWN: protractor.Key.ARROW_DOWN,
-		BACK_SPACE: protractor.Key.BACK_SPACE
+		CONTROL: {name: 'CONTROL', key: protractor.Key.META || protractor.Key.CONTROL},
+		ENTER: {name: 'ENTER', key: protractor.Key.ENTER},
+		ARROW_RIGHT: {name: 'ARROW_RIGHT', key: protractor.Key.ARROW_RIGHT},
+		ARROW_DOWN: {name: 'ARROW_DOWN', key: protractor.Key.ARROW_DOWN},
+		BACK_SPACE: {name: 'BACK_SPACE', key: protractor.Key.BACK_SPACE}
 	}
 };

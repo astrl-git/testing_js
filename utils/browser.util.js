@@ -1,6 +1,11 @@
 module.exports = function () {
     var defaultWindowResolution = {width: 1064, height: 800};
 
+    this.get = function (url) {
+        console.log("Go to url: " + url)
+        return browser.get(url);
+    };
+
     /**
      * Returns browser's console logs
      * @returns {!webdriver.promise.Promise.<Array>}
@@ -19,6 +24,7 @@ module.exports = function () {
      */
     this.waitForCondition = function (description, condition, timeOut) {
         timeOut = timeOut || 3000;
+        console.log("Wait while "+ description + " (no longer than " + timeOut + "ms)")
         return browser.wait(condition, timeOut, description);
     };
 
@@ -27,6 +33,7 @@ module.exports = function () {
      * @returns {!webdriver.promise.Promise.<Array>}
      */
     this.getTitle = function () {
+        console.log("Get page title")
         return browser.getTitle();
     };
 
